@@ -1,58 +1,107 @@
-class Person {
-  #score = 0;
-  #numLives = 10;
-  constructor(first, last) {
-    this.first = first;
-    this.last = last;
-  }
-
-  get fullname() {
-    return `${this.first} ${this.last}`;
-  }
-
-  get score() {
-    return this.#score;
-  }
-  set score(newScore) {
-    if (newScore < 0) throw new Error("Score cannot be negative");
-    this.#score = newScore;
-  }
-  // getScore() {
-  //   return this.#score;
-  // }
-  setScore(s) {
-    return (this.#score = s);
-  }
-  thisIsAMethodHere() {
-    console.log(`hello from the other side`);
-  }
-  loselife() {
-    this.#numLives--;
-  }
-  #secretMethod() {
-    console.log(`secret method`);
-  }
+"use strict";
+// class Player {
+//   public readonly first: string;
+//   readonly last: string;
+//   private score = 0;
+//   constructor(first: string, last: string) {
+//     this.first = first;
+//     this.last = last;
+//     this.secretMethod();
+//   }
+//   private secretMethod(): void {
+//     console.log("secret method");
+//   }
+// }
+class Player {
+    constructor(first, last, _score) {
+        this.first = first;
+        this.last = last;
+        this._score = _score;
+    }
+    secretMethod() {
+        console.log("secret method");
+    }
+    get fullName() {
+        return `${this.first} ${this.last}`;
+    }
+    get score() {
+        return this._score;
+    }
+    set score(newScore) {
+        if (newScore < 0) {
+            throw new Error("Score cannot be negative");
+        }
+        this._score = newScore;
+    }
 }
-
-const person1 = new Person("abdo", "mohamed");
-const person2 = new Person("hello", "from");
-
-console.log(person1);
-console.log(person2);
-console.log(person1.first, person1.last);
-
-person1.thisIsAMethodHere();
-person2.thisIsAMethodHere();
-
-person1.loselife();
-
-// console.log(person1.getScore());
-// console.log(person1.setScore(10));
-// console.log(person1.getScore());
-console.log(person1);
-
-console.log(person1.score);
-console.log((person1.score = -234324));
-console.log(person1.score);
-// console.log(person1.#secretMethod()); // error
-console.log(person1.fullname);
+class SuperPlayer extends Player {
+    constructor() {
+        super(...arguments);
+        this.isAdmin = true;
+    }
+    maxScore() {
+        this._score = 909090;
+    }
+}
+class AdminPlayer extends SuperPlayer {
+    constructor() {
+        super(...arguments);
+        this.thisIsAdmin = true;
+        // this._score = 234324;
+    }
+    maxIsHere() {
+        this._score = 32423432;
+    }
+}
+class Bike {
+    constructor(color) {
+        this.color = color;
+    }
+    print() {
+        console.log("print");
+    }
+}
+class Animal {
+    move() {
+        console.log("move");
+    }
+}
+class Dog extends Animal {
+    makeSound() {
+        console.log("bark");
+    }
+}
+class Employee {
+    constructor(full, age) {
+        this.full = full;
+        this.age = age;
+    }
+}
+class FullTimeEmployee extends Employee {
+    printInfo() {
+        console.log(`${this.full} is ${this.age} years old`);
+    }
+    getPay() {
+        return this.age * 10;
+    }
+}
+class PartTimeEmployee extends Employee {
+    printInfo() {
+        console.log(`${this.full} is ${this.age} years old`);
+    }
+    getPay() {
+        return this.age * 5;
+    }
+}
+const newPlayer = new Player("John", "Doe", 100);
+// newPlayer.score = 100;
+// newPlayer.secretMethod();
+// newPlayer.first = "mohamed"; //read only
+newPlayer.fullName;
+newPlayer.score;
+newPlayer.score = -100;
+// newPlayer.fullName = "mohamed"; //read only
+const h = new AdminPlayer("mohamed", "hamed", 100);
+h.maxIsHere();
+const b = new Dog();
+let t = new FullTimeEmployee("mohamed", 20);
